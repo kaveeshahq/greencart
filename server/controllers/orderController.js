@@ -1,6 +1,7 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
 import stripe from "stripe";
+import User from "../models/user.js";
 
 // Place Order COD : /api/order/cod
 export const placeOrderCOD = async (req, res) => {
@@ -105,6 +106,68 @@ export const placeOrderStripe = async (req, res) => {
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
+};
+
+// Stripe Webhooks to verify payments : /stripe
+export const stripeWebHooks = async (req, res) => {
+  //  Stripe Gateway
+  const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+
+  const sig = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripeInstance.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (error) {
+    response.status(400).send(`Webhook Error : ${error.message}`);
+  }
+
+  // Handle the event
+
+  switch (event.type) {
+    case "payment_intent.succeeded": {
+      const paymentIntent = event.data.object;
+      const paymentIntentId = paymentIntent.id;
+
+      // Getting session metadata
+      const session = await stripeInstance.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+      });
+
+      const { orderId, userId } = session.data[0].metadata;
+
+      // Mark Payment as paid
+
+      await Order.findByIdAndUpdate(orderId, { isPaid: true });
+      // Clear the cart
+
+      await User.findByIdAndUpdate(userId, { cartItems: {} });
+      break;
+    }
+
+    case "payment_intent.payment_failed": {
+      const paymentIntent = event.data.object;
+      const paymentIntentId = paymentIntent.id;
+
+      // Getting session metadata
+      const session = await stripeInstance.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+      });
+
+      const { orderId } = session.data[0].metadata;
+      await Order.findByIdAndDelete(orderId);
+      break;
+    }
+
+    default:
+      console.error(`Unhandled event type ${event.type}`);
+
+      break;
+  }
+  response.json({ received: true });
 };
 
 //  Get Orders by User ID : /api/order/user

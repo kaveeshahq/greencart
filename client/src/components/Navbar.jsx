@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets.js";
 import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [open, setOpen] = React.useState(false);
@@ -14,11 +15,22 @@ const Navbar = () => {
     searchQuery,
     setSearchQuery,
     getCartCount,
+    axios,
   } = useAppContext();
 
   const logout = async () => {
-    setUser(null);
-    navigate("/");
+    try {
+      const { data } = await axios.get("/api/user/logout");
+      if (data.success) {
+        toast.success(data.message);
+        setUser(null);
+        navigate("/");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -92,7 +104,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-6 sm:hidden">
-                <div
+        <div
           onClick={() => navigate("/cart")}
           className="relative cursor-pointer"
         >
@@ -105,17 +117,15 @@ const Navbar = () => {
             {getCartCount()}
           </button>
         </div>
-           <button
-        onClick={() => (open ? setOpen(false) : setOpen(true))}
-        aria-label="Menu"
-        className=""
-      >
-        {/* Menu Icon SVG */}
-        <img src={assets.menu_icon} alt="menu" className="" />
-      </button>
+        <button
+          onClick={() => (open ? setOpen(false) : setOpen(true))}
+          aria-label="Menu"
+          className=""
+        >
+          {/* Menu Icon SVG */}
+          <img src={assets.menu_icon} alt="menu" className="" />
+        </button>
       </div>
-
-   
 
       {/* Mobile Menu */}
       {open && (

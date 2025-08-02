@@ -1,37 +1,35 @@
-import cookieParser from 'cookie-parser';
-import express from 'express';
-import cors from 'cors';
-import connectDB from './configs/db.js';
-import 'dotenv/config'
-import userRouter from './routes/userRoute.js';
-import sellerRouter from './routes/sellerRoute.js';
-
+import cookieParser from "cookie-parser";
+import express from "express";
+import cors from "cors";
+import connectDB from "./configs/db.js";
+import "dotenv/config";
+import userRouter from "./routes/userRoute.js";
+import sellerRouter from "./routes/sellerRoute.js";
+import connectCloudinary from "./configs/cloudinary.js";
+import productRouter from "./routes/productRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 await connectDB();
+await connectCloudinary();
 
 // Allowed Origins
 
-const allowedOrigins =[
-    'http://localhost:5173'
-]
-
+const allowedOrigins = ["http://localhost:5173"];
 
 // Middleware Configuration
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: allowedOrigins, credentials: true}));
-
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // Routes
 
-app.get('/', (req,res) => res.send('API Working')); 
-app.use('/api/user' , userRouter)
-app.use('/api/seller' , sellerRouter)
+app.get("/", (req, res) => res.send("API Working"));
+app.use("/api/user", userRouter);
+app.use("/api/seller", sellerRouter);
+app.use("/api/product", productRouter);
 
-
-app.listen(port, () =>{
-    console.log(`Server running on port ${port}`);
-})
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

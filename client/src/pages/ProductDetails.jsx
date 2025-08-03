@@ -30,14 +30,30 @@ const ProductDetails = () => {
   return (
     product && (
       <div className="mt-12">
-        <p>
+        {/* Breadcrumb */}
+        <nav className="mb-8 animate-fade-in-up">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Link to="/" className="hover:text-primary transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <Link to={"/products"}> Products</Link> <span>/</span>
+            <Link to={`/products/${product.category.toLowerCase()}`}>
+              {" "}
+              {product.category}
+            </Link>{" "}
+            <span>/</span>
+            <span className="text-primary"> {product.name}</span>{" "}
+          </div>
+        </nav>
+        {/* <p>
           <Link to={"/"}>Home</Link> /<Link to={"/products"}> Products</Link> /
           <Link to={`/products/${product.category.toLowerCase()}`}>
             {" "}
             {product.category}
           </Link>{" "}
           /<span className="text-primary"> {product.name}</span>
-        </p>
+        </p> */}
 
         <div className="flex flex-col md:flex-row gap-16 mt-4">
           <div className="flex gap-3">

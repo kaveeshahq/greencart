@@ -4,6 +4,8 @@ import Categories from '../components/Categories'
 import BestSeller from '../components/BestSeller'
 import BottomBanner from '../components/BottomBanner'
 import NewsLetter from '../components/NewsLetter'
+import DeliverySection from '../components/DeliverySection'
+import HomeFAQ from '../components/HomeFAQ'
 
 const Home = () => {
   return (
@@ -12,6 +14,8 @@ const Home = () => {
       <Categories/>
       <BestSeller/>
       <BottomBanner/>
+      <DeliverySection/>
+      <HomeFAQ/>
       <NewsLetter/>
     </div>
   )

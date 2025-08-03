@@ -40,18 +40,37 @@ const Navbar = () => {
   }, [searchQuery]);
 
   return (
-    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
-      <NavLink to="/" onClick={() => setOpen(false)}>
-        <img className="h-9" src={assets.logo} alt="logo" />
+    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-[#EDF8F3] relative transition-all">
+      <NavLink to="/" onClick={() => setOpen(false)} className="relative">
+        <img
+          className="h-9 animate-pulse drop-shadow-[0_0_8px_var(--tw-shadow-color)] shadow-primary"
+          src={assets.logo}
+          alt="logo"
+        />
       </NavLink>
 
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-8">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/products">All Products</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
+        <NavLink
+          to="/"
+          className="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/products"
+          className="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+        >
+          All Products
+        </NavLink>
+        <NavLink
+          to="/contact-us"
+          className="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+        >
+          Get in Touch
+        </NavLink>
 
-        <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
+        <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full transition-all focus-within:ring-1 focus-within:ring-primary hover:ring-1 hover:ring-primary">
           <input
             className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
             type="text"
@@ -63,7 +82,7 @@ const Navbar = () => {
 
         <div
           onClick={() => navigate("/cart")}
-          className="relative cursor-pointer"
+          className="relative cursor-pointer hover:scale-110 transition-transform duration-200"
         >
           <img
             src={assets.nav_cart_icon}
@@ -106,7 +125,7 @@ const Navbar = () => {
       <div className="flex items-center gap-6 sm:hidden">
         <div
           onClick={() => navigate("/cart")}
-          className="relative cursor-pointer"
+          className="relative cursor-pointer hover:scale-110 transition-transform duration-200"
         >
           <img
             src={assets.nav_cart_icon}
@@ -120,9 +139,7 @@ const Navbar = () => {
         <button
           onClick={() => (open ? setOpen(false) : setOpen(true))}
           aria-label="Menu"
-          className=""
         >
-          {/* Menu Icon SVG */}
           <img src={assets.menu_icon} alt="menu" className="" />
         </button>
       </div>
@@ -146,8 +163,8 @@ const Navbar = () => {
               My Orders
             </NavLink>
           )}
-          <NavLink to="/" onClick={() => setOpen(false)}>
-            Contact
+          <NavLink to="/contact-us" onClick={() => setOpen(false)}>
+            Get in Touch
           </NavLink>
 
           {!user ? (

@@ -841,3 +841,27 @@ export const dummyOrders = [
     updatedAt: "2025-03-25T07:17:13.068Z",
   },
 ];
+
+export const deliveryFeatures = [
+  {
+    icon: "/icons/speed.svg",
+    title: "Fast Delivery",
+    description: "Get your groceries within 30 minutes to your doorstep.",
+  },
+  {
+    icon: "/icons/fresh.svg",
+    title: "Fresh Products",
+    description: "We guarantee fresh produce and hygienic packaging.",
+  },
+  {
+    icon: "/icons/track.svg",
+    title: "Live Tracking",
+    description: "Track your delivery in real-time from store to door.",
+  },
+  {
+    icon: "/icons/support.svg",
+    title: "24/7 Support",
+    description: "Our team is available anytime for your convenience.",
+  },
+];
+

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import ProductCard from "../components/ProductCard";
+import { Link } from "react-router-dom";
 
 const AllProducts = () => {
   const { products, searchQuery } = useAppContext();
@@ -19,6 +20,16 @@ const AllProducts = () => {
   }, [products, searchQuery]);
   return (
     <div className="mt-16 flex flex-col">
+            {/* Breadcrumb */}
+        <nav className="mb-8 animate-fade-in-up">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Link to="/" className="hover:text-primary transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <span className="text-primary font-medium">All Products</span>
+          </div>
+        </nav>
       <div className="flex flex-col items-end w-max">
         <p className="text-2xl font-medium uppercase">All Products</p>
         <div className="w-16 h-0.5 bg-primary rounded-full"></div>

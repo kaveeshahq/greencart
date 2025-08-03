@@ -18,20 +18,21 @@ const port = process.env.PORT || 4000;
 await connectDB();
 await connectCloudinary();
 
-// Allowed Origins
-
-const allowedOrigins = ["http://localhost:5173" , "https://greencart-zeta-eight.vercel.app"];
-
-
-app.post('/stripe', express.raw({type:'application/json'}), stripeWebHooks)
-
-// Middleware Configuration
-app.use(express.json());
-app.use(cookieParser());
+// ✅ CORS: set before routes
+const allowedOrigins = ["http://localhost:5173", "https://greencart-zeta-eight.vercel.app"];
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-// Routes
+// ✅ Handle preflight OPTIONS requests
+app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
+// ⚠️ Stripe Webhook MUST use raw body
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebHooks);
+
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
+
+// Routes
 app.get("/", (req, res) => res.send("API Working"));
 app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);

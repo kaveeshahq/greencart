@@ -18,17 +18,15 @@ const port = process.env.PORT || 4000;
 await connectDB();
 await connectCloudinary();
 
-// ✅ CORS: set before routes
+// ✅ CORS comes first
 const allowedOrigins = ["http://localhost:5173", "https://greencart-zeta-eight.vercel.app"];
 app.use(cors({ origin: allowedOrigins, credentials: true }));
-
-// ✅ Handle preflight OPTIONS requests
 app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
-// ⚠️ Stripe Webhook MUST use raw body
-app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebHooks);
+// ✅ Stripe route first, uses raw body only
+app.post("/stripe", express.raw({ type: "application/json" }), stripeWebHooks);
 
-// Middlewares
+// ✅ Now apply global parsers (after Stripe)
 app.use(express.json());
 app.use(cookieParser());
 

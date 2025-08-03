@@ -1,3 +1,5 @@
+// index.js
+
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
@@ -15,30 +17,33 @@ import { stripeWebHooks } from "./controllers/orderController.js";
 const app = express();
 const port = process.env.PORT || 4000;
 
-await connectDB();
-await connectCloudinary();
-
-// ✅ CORS comes first
 const allowedOrigins = ["http://localhost:5173", "https://greencart-zeta-eight.vercel.app"];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
-app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
-// ✅ Stripe route first, uses raw body only
-app.post("/stripe", express.raw({ type: "application/json" }), stripeWebHooks);
+(async () => {
+  try {
+    await connectDB();
+    await connectCloudinary();
 
-// ✅ Now apply global parsers (after Stripe)
-app.use(express.json());
-app.use(cookieParser());
+    app.use(cors({ origin: allowedOrigins, credentials: true }));
+    app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
-// Routes
-app.get("/", (req, res) => res.send("API Working"));
-app.use("/api/user", userRouter);
-app.use("/api/seller", sellerRouter);
-app.use("/api/product", productRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/address", addressRouter);
-app.use("/api/order", orderRouter);
+    app.post("/stripe", express.raw({ type: "application/json" }), stripeWebHooks);
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+    app.use(express.json());
+    app.use(cookieParser());
+
+    app.get("/", (req, res) => res.send("API Working"));
+    app.use("/api/user", userRouter);
+    app.use("/api/seller", sellerRouter);
+    app.use("/api/product", productRouter);
+    app.use("/api/cart", cartRouter);
+    app.use("/api/address", addressRouter);
+    app.use("/api/order", orderRouter);
+
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  } catch (err) {
+    console.error("Server boot failed:", err);
+  }
+})();

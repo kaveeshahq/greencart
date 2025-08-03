@@ -1,5 +1,3 @@
-// index.js
-
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
@@ -17,33 +15,31 @@ import { stripeWebHooks } from "./controllers/orderController.js";
 const app = express();
 const port = process.env.PORT || 4000;
 
-const allowedOrigins = ["http://localhost:5173", "https://greencart-zeta-eight.vercel.app"];
+await connectDB();
+await connectCloudinary();
 
-(async () => {
-  try {
-    await connectDB();
-    await connectCloudinary();
+// Allowed Origins
 
-    app.use(cors({ origin: allowedOrigins, credentials: true }));
-    app.options("*", cors({ origin: allowedOrigins, credentials: true }));
+const allowedOrigins = ["http://localhost:5173" , "https://greencart-zeta-eight.vercel.app"];
 
-    app.post("/stripe", express.raw({ type: "application/json" }), stripeWebHooks);
 
-    app.use(express.json());
-    app.use(cookieParser());
+app.post('/stripe', express.raw({type:'application/json'}), stripeWebHooks)
 
-    app.get("/", (req, res) => res.send("API Working"));
-    app.use("/api/user", userRouter);
-    app.use("/api/seller", sellerRouter);
-    app.use("/api/product", productRouter);
-    app.use("/api/cart", cartRouter);
-    app.use("/api/address", addressRouter);
-    app.use("/api/order", orderRouter);
+// Middleware Configuration
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  } catch (err) {
-    console.error("Server boot failed:", err);
-  }
-})();
+// Routes
+
+app.get("/", (req, res) => res.send("API Working"));
+app.use("/api/user", userRouter);
+app.use("/api/seller", sellerRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/order", orderRouter);
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

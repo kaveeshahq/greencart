@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const ContactUs = () => {
@@ -20,11 +21,37 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.error || "Something went wrong");
+    }
+    toast.success("Message sent successfully!")
+    setFormData({
+      firstName: '',
+      lastName: '',
+      address: '',
+      contactNumber: '',
+      email: '',
+      comments: ''
+    });
+  } catch (err) {
+    alert("❌ Failed to send message: " + err.message);
+  }
+};
+
+
+
 
   return (
     <div className="px-6 md:px-24 py-12 space-y-16 overflow-hidden">

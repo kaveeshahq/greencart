@@ -50,7 +50,7 @@ const Navbar = () => {
       </NavLink>
 
       {/* Desktop Menu */}
-      <div className="hidden sm:flex items-center gap-8">
+      <div className="hidden sm:flex items-center gap-6">
         <NavLink
           to="/"
           className="relative pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
@@ -94,6 +94,13 @@ const Navbar = () => {
           </button>
         </div>
 
+        <button
+          onClick={() => navigate("/seller")}
+          className="px-5 py-2 bg-primary text-white rounded-full hover:bg-primary-dull transition"
+        >
+          Seller Dashboard
+        </button>
+
         {!user ? (
           <button
             onClick={() => setShowUserLogin(true)}
@@ -104,7 +111,7 @@ const Navbar = () => {
         ) : (
           <div className="relative group">
             <img src={assets.profile_icon} alt="profile" className="w-10" />
-            <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5  rounded-md w-30 text-sm z-40">
+            <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 rounded-md w-30 text-sm z-40">
               <li
                 onClick={() => navigate("my-orders")}
                 className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer"
@@ -122,6 +129,7 @@ const Navbar = () => {
         )}
       </div>
 
+      {/* Mobile Top Right: Cart & Menu */}
       <div className="flex items-center gap-6 sm:hidden">
         <div
           onClick={() => navigate("/cart")}
@@ -140,32 +148,38 @@ const Navbar = () => {
           onClick={() => (open ? setOpen(false) : setOpen(true))}
           aria-label="Menu"
         >
-          <img src={assets.menu_icon} alt="menu" className="" />
+          <img src={assets.menu_icon} alt="menu" />
         </button>
       </div>
 
       {/* Mobile Menu */}
       {open && (
-        <div
-          className={`${
-            open ? "flex" : "hidden"
-          } absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
-        >
+        <div className="absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden flex">
           <NavLink to="/" onClick={() => setOpen(false)}>
             Home
           </NavLink>
           <NavLink to="/products" onClick={() => setOpen(false)}>
             All Products
           </NavLink>
-
-          {user && (
-            <NavLink to="/products" onClick={() => setOpen(false)}>
-              My Orders
-            </NavLink>
-          )}
           <NavLink to="/contact-us" onClick={() => setOpen(false)}>
             Get in Touch
           </NavLink>
+
+          <button
+            onClick={() => {
+              navigate("/seller");
+              setOpen(false);
+            }}
+            className="w-full text-left px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dull transition text-sm mt-1"
+          >
+            Seller Dashboard
+          </button>
+
+          {user && (
+            <NavLink to="/my-orders" onClick={() => setOpen(false)}>
+              My Orders
+            </NavLink>
+          )}
 
           {!user ? (
             <button

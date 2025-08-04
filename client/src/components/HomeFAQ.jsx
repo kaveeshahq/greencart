@@ -167,7 +167,6 @@ const HomeFAQ = () => {
           animation: slide-in-right 0.8s ease-out forwards;
         }
 
-        /* Hover effects for support feature cards */
         .group:hover {
           animation: subtle-float 3s ease-in-out infinite;
         }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { assets, dummyAddress } from "../assets/assets";
 import toast from "react-hot-toast";
+import Seo from "../components/Seo";
 
 const Cart = () => {
   const [showAddress, setShowAddress] = useState(false);
@@ -110,6 +111,12 @@ const Cart = () => {
   }, [user]);
 
   return products.length > 0 && cartItems ? (
+
+    <>
+        <Seo
+        title="GreenCart - Customer Cart"
+        description="Here is the all products in Greencart."
+      />
     <div className="flex flex-col md:flex-row mt-16">
       <div className="flex-1 max-w-4xl">
         <h1 className="text-3xl font-medium mb-6">
@@ -293,6 +300,8 @@ const Cart = () => {
         </button>
       </div>
     </div>
+        </>
+
   ) : null;
 };
 export default Cart;

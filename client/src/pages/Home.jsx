@@ -6,9 +6,15 @@ import BottomBanner from '../components/BottomBanner'
 import NewsLetter from '../components/NewsLetter'
 import DeliverySection from '../components/DeliverySection'
 import HomeFAQ from '../components/HomeFAQ'
+import Seo from '../components/Seo'
 
 const Home = () => {
   return (
+      <>
+      <Seo
+        title="GreenCart - Home"
+        description="Browse our fresh and organic grocery selection."
+      />
     <div className='mt-10'>
       <MainBanner />
       <Categories/>
@@ -18,6 +24,8 @@ const Home = () => {
       <HomeFAQ/>
       <NewsLetter/>
     </div>
+        </>
+
   )
 }
 

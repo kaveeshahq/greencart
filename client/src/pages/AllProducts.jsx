@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import ProductCard from "../components/ProductCard";
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 
 const AllProducts = () => {
   const { products, searchQuery } = useAppContext();
@@ -19,6 +20,11 @@ const AllProducts = () => {
     }
   }, [products, searchQuery]);
   return (
+    <>
+       <Seo
+        title="GreenCart - All Products"
+        description="Here is the all products in Greencart."
+      />
     <div className="mt-16 flex flex-col">
             {/* Breadcrumb */}
         <nav className="mb-8 animate-fade-in-up">
@@ -43,6 +49,8 @@ const AllProducts = () => {
           ))}
       </div>
     </div>
+        </>
+
   );
 };
 

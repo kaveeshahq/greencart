@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -54,6 +55,7 @@ const handleSubmit = async (e) => {
 
 
   return (
+  <>    
     <div className="px-6 md:px-24 py-12 space-y-16 overflow-hidden">
             {/* Breadcrumb */}
         <nav className="mb-8 animate-fade-in-up">
@@ -321,6 +323,8 @@ const handleSubmit = async (e) => {
         }
       `}</style>
     </div>
+        </>
+
   );
 };
 

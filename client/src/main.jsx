@@ -18,14 +18,17 @@ import ProductList from "./pages/seller/ProductList";
 import Orders from "./pages/seller/Orders";
 import ContactUs from "./pages/ContactUs.jsx";
 import FAQPage from "./pages/FAQPage.jsx";
+import { HelmetProvider } from 'react-helmet-async'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
+      <HelmetProvider>
       <AppContextProvider>
         <App />
       </AppContextProvider>
+      </HelmetProvider>
     ),
     children: [
       { index: true, element: <Home /> },

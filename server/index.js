@@ -21,7 +21,7 @@ await connectCloudinary();
 
 // Allowed Origins
 
-const allowedOrigins = ["http://localhost:5173" , "https://greencart-backend-p028.onrender.com/"];
+const allowedOrigins = ["http://localhost:5173" , "https://greencartmall.netlify.app"];
 
 
 app.post('/stripe', express.raw({type:'application/json'}), stripeWebHooks)
